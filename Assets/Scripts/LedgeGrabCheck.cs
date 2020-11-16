@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class LedgeGrabCheck : MonoBehaviour
 {
-    [SerializeField]
     private Vector3 _handPos, _standPos;
+
+    private void Start()
+    {
+        _handPos = transform.Find("HandPos").position;
+        _standPos = transform.Find("StandPos").position;
+
+        if (_handPos == null || _standPos == null)
+            Debug.Log("HandPos or StandPos null");
+    }
 
     private void OnTriggerEnter(Collider other)
     {

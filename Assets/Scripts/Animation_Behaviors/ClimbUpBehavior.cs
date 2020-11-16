@@ -21,14 +21,8 @@ public class ClimbUpBehavior : StateMachineBehaviour
     {
         Player player = animator.transform.parent.parent.GetComponent<Player>();
         if (player != null)
-        {
-            Debug.Log("got component");
             player.ClimbUpComplete();
-        }
-        else
-        {
-            Debug.Log("didn<t got the component");
-        }
+  
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
