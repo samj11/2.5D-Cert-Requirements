@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private bool _jumping;
     private bool _onLedge;
     private bool _ladderClimbing;
+    private bool _rolling;
 
     private LedgeGrabCheck _activeLedge;
 
@@ -71,6 +72,13 @@ public class Player : MonoBehaviour
                 _jumping = true;
                 _animator.SetBool("Jumping", _jumping);
             }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _rolling = true;
+                _animator.SetFloat("Speed", Mathf.Abs(h));
+                _animator.SetBool("Rolling", _rolling);
+                _speed = _speed * 1.5f;
+            }
         }
 
         if(_ladderClimbing)
@@ -101,6 +109,8 @@ public class Player : MonoBehaviour
             if (_charController.isGrounded)
                 LadderExit();
         }
+
+
 
         _direction.y -= _gravity * Time.deltaTime;
 
@@ -142,6 +152,13 @@ public class Player : MonoBehaviour
         _animator.SetBool("OnGround", true);
         _animator.SetBool("ClimbingLadder", false);
         _gravity = 1f;
+    }
+
+    public void RollingComplete()
+    {
+        _rolling = false;
+        _animator.SetBool("Rolling", _rolling);
+        _speed = _speed /1.5f;
     }
 
 }
