@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
     private CharacterController _charController;
     private Animator _animator;
+    private bool _idleJumping;
     private bool _jumping;
     private bool _onLedge;
     private bool _ladderClimbing;
@@ -56,7 +57,9 @@ public class Player : MonoBehaviour
             }
 
             float h = Input.GetAxisRaw("Horizontal");
-            _direction = new Vector3(0, 0, h) * _speed;
+            if(!_idleJumping)
+                _direction = new Vector3(0, 0, h) * _speed;
+
             _animator.SetFloat("Speed", Mathf.Abs(h));
 
             if (h != 0)
@@ -68,7 +71,10 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                _direction.y += _jumpHeight;
+                if(h != 0)
+                    _direction.y += _jumpHeight;
+                if (h == 0)
+                    _idleJumping = true;
                 _jumping = true;
                 _animator.SetBool("Jumping", _jumping);
             }
@@ -159,6 +165,11 @@ public class Player : MonoBehaviour
         _rolling = false;
         _animator.SetBool("Rolling", _rolling);
         _speed = _speed /1.5f;
+    }
+
+    public void IdleJumpingComplete()
+    {
+        _idleJumping = false;
     }
 
 }
